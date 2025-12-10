@@ -1,13 +1,23 @@
+/**
+ * Copyright 2025 kinguva7229
+ * @license Apache-2.0, see LICENSE for full text.
+ */
+
+/**
+ * `cpbra-app`
+ * 
+ * @demo index.html
+ * @element cpbra-app
+ */
 import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
-import "./lib/cpbra-bigass-banner.js";
-import "./lib/cpbra-nav-menu.js";
-import "./lib/cpbra-court.js";
-import "./lib/cpbra-schedule-list.js";
-import "./lib/cpbra-content-band.js";
-import "./lib/cpbra-scroll-btn.js";
+import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
 
-export class CpbraApp extends DDDSuper(LitElement) {
+import "./cpbra-bigass-banner.js";
+import "./cpbra-scroll-btn.js";
+
+
+export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
 
   static get tag() {
     return "cpbra-app";
@@ -21,18 +31,15 @@ export class CpbraApp extends DDDSuper(LitElement) {
 
   constructor() {
     super();
-    this.activeRoute = window.location.pathname;
-    this.addEventListener("route-changed", this._handleRouteChange);
-    window.addEventListener("popstate", this._handlePopState.bind(this));
+    
+    
   }
 
-  _handleRouteChange(e) {
-    this.activeRoute = e.detail.route;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  _handlePopState() {
-    this.activeRoute = window.location.pathname;
+  // Lit reactive properties
+  static get properties() {
+    return {
+    
+    };
   }
 
   static get styles() {
@@ -128,24 +135,20 @@ export class CpbraApp extends DDDSuper(LitElement) {
 
   render() {
     return html`
-      <cpbra-banner 
-        logoimg="https://placehold.co/200x80/ffffff/000000?text=CPBRA+Logo"
-        bgimg="https://placehold.co/1920x800/2A2E35/ffffff?text=Basketball+Court+Background"
-        tagline="Where Anybody Can Get Next">
-      </cpbra-banner>
+      <!-- HERO BANNER -->
+      <cpbra-banner
+        logoimg="/images/cpbra_logo.png"
+        bgimg="/images/bg_img_ball_court.png"
+        tagline="Community. Hoops. Everyone."
+      ></cpbra-banner>
 
-      <cpbra-nav-menu active-route="${this.activeRoute}"></cpbra-nav-menu>
+      <!-- FLOATING CENTER SCROLL BUTTON -->
+      <cpbra-scroll-btn target="#next"></cpbra-scroll-btn>
 
-      <main>
-        ${this.renderRoute()}
-      </main>
-
-      <cpbra-content-band variant="accent">
-         <div style="text-align: center;">
-            <h2>CPBRA League 2025</h2>
-            <p>Copyright © 2025 Kinguva7229</p>
-         </div>
-      </cpbra-content-band>
+      <!-- EMPTY SECTION JUST TO SCROLL TO -->
+      <div id="next" class="spacer"></div>
+    `;
+  }
 
       <cpbra-scroll-btn target="main"></cpbra-scroll-btn>
     `;
