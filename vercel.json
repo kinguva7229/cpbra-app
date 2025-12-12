@@ -1,6 +1,14 @@
 {
     "rewrites": [
         {
+            "source": "/api/media.json",
+            "destination": "/media.json"
+        },
+        {
+            "source": "/api/schedule.json",
+            "destination": "/schedule.json"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }
