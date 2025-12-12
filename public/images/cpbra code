@@ -1,0 +1,207 @@
+/**
+ * Copyright 2025 kinguva7229
+ * @license Apache-2.0, see LICENSE for full text.
+ 
+*/
+import { LitElement, html, css } from "lit";
+import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
+import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
+
+import "./cpbra-bigass-banner.js";
+import "./cpbra-scroll-btn.js";
+import "./cpbra-content-band.js";
+import "./cpbra-page.js";
+import "./cpbra-court.js";
+import "./cpbra-schedule-list.js";
+import "./cpbra-menu-bar.js";
+
+export class CpbraApp extends DDDSuper(I18NMixin(LitElement)) {
+  static get tag() {
+    return "cpbra-app";
+  }
+
+  static get properties() {
+    return {
+      activeRoute: { type: String },
+    };
+  }
+
+  constructor() {
+    super();
+    this.activeRoute = this._normalizeRoute(window.location.pathname || "/");
+    this._onPopState = this._onPopState.bind(this);
+    this._onRouteChanged = this._onRouteChanged.bind(this);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener("popstate", this._onPopState);
+    this.addEventListener("route-changed", this._onRouteChanged);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener("popstate", this._onPopState);
+    this.removeEventListener("route-changed", this._onRouteChanged);
+    super.disconnectedCallback();
+  }
+
+  static get styles() {
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+          background: var(--ddd-theme-default-slateMaxLight);
+          min-height: 100vh;
+        }
+
+        main {
+          width: 100%;
+        }
+
+        .courts-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 24px;
+          justify-content: center;
+        }
+
+        .court-container {
+          flex: 1 1 300px;
+          min-width: 300px;
+          max-width: 450px;
+        }
+      `,
+    ];
+  }
+
+  _normalizeRoute(route) {
+    if (!route) return "/";
+    if (!route.startsWith("/")) route = "/" + route;
+    if (route !== "/" && route.endsWith("/")) route = route.slice(0, -1);
+    return route;
+  }
+
+  _onPopState() {
+    this.activeRoute = this._normalizeRoute(window.location.pathname || "/");
+  }
+
+  _onRouteChanged(e) {
+    const newRoute = this._normalizeRoute(e.detail.route || "/");
+    this.navigate(newRoute);
+  }
+
+  navigate(route) {
+    const r = this._normalizeRoute(route);
+    if (r === this.activeRoute) return;
+    this.activeRoute = r;
+    window.history.pushState({}, "", r);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  renderRoute() {
+    const R = this.activeRoute;
+
+    if (R === "/schedule") {
+      return html`
+        <cpbra-page
+          title="CPBRA Schedule"
+          subtitle="Live and upcoming games for our association"
+        >
+          <cpbra-content-band variant="default">
+            <cpbra-schedule-list></cpbra-schedule-list>
+          </cpbra-content-band>
+        </cpbra-page>
+      `;
+    }
+
+    if (R === "/roster") {
+      return html`
+        <cpbra-page
+          title="Team Rosters"
+          subtitle="Meet the CPBRA squads and player lineups"
+        >
+          <cpbra-content-band variant="light">
+            <p>
+              Roster management tools are coming soon. This page will showcase
+              players, teams, and divisions for the association.
+            </p>
+          </cpbra-content-band>
+        </cpbra-page>
+      `;
+    }
+
+    if (R === "/join") {
+      return html`
+        <cpbra-page
+          title="Join the Association"
+          subtitle="Get your child or squad registered with CPBRA"
+        >
+          <cpbra-content-band variant="light">
+            <p>
+              Registration flows, pricing, and waiver details will live here.
+              For now, this is a mocked page to demonstrate routing.
+            </p>
+          </cpbra-content-band>
+        </cpbra-page>
+      `;
+    }
+
+    // DEFAULT / HOME
+    return html`
+      <cpbra-page
+        title="Live Park Status"
+        subtitle="Who's hooping right now across CPBRA courts?"
+      >
+        <cpbra-content-band variant="light" id="features">
+          <div class="courts-row">
+            <div class="court-container">
+              <cpbra-court
+                court-name="Dreamville"
+                game-duration="21"
+                floor-color="#003B5C"
+                squads-waiting="4"
+              ></cpbra-court>
+            </div>
+
+            <div class="court-container">
+              <cpbra-court
+                court-name="The Cage"
+                game-duration="10"
+                floor-color="#222"
+                squads-waiting="1"
+              ></cpbra-court>
+            </div>
+
+            <div class="court-container">
+              <cpbra-court
+                court-name="Rookie Run"
+                game-duration="5"
+                floor-color="#556B2F"
+                squads-waiting="0"
+              ></cpbra-court>
+            </div>
+          </div>
+        </cpbra-content-band>
+      </cpbra-page>
+    `;
+  }
+
+  render() {
+    return html`
+      <cpbra-menu-bar .activeRoute=${this.activeRoute}></cpbra-menu-bar>
+
+      <cpbra-banner
+        logoimg="/public/images/cpbra_logo.png"
+        bgimg="/public/images/court_image.png"
+        tagline="Community. Hoops. Everyone."
+      ></cpbra-banner>
+
+      <main>
+        ${this.renderRoute()}
+      </main>
+    `;
+  }
+}
+
+globalThis.customElements.define(CpbraApp.tag, CpbraApp);
