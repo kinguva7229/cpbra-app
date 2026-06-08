@@ -1,5 +1,5 @@
 {
-    "name": "@yourOrganization/cpbra-app",
+    "name": "cpbra-app",
     "version": "0.0.0",
     "description": "Webcomponent cpbra-app following hax / open-wc recommendations",
     "license": "Apache-2.0",

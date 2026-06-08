@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
-import "./lib/cpbra-bigass-banner.js";
+import "./lib/cpbra-hero-banner.js";
 import "./lib/cpbra-nav-menu.js";
 import "./lib/cpbra-court.js";
 import "./lib/cpbra-schedule-list.js";

@@ -1,49 +1,44 @@
-# cpbra-app
-DDD + Lit web component based on OpenWC toolchain. This is intended to provide the following:
-- Look good via DDD, HAX design system
-- Simple, easy to read code via Lit
-- Great workflow via OpenWC tooling + Vercel for sharing demos
-- Simplify contribution to the HAX ecosystem
-- Publish and distribute via npmjs.com
+# CPBRA App
 
-## Install dependencies
-- `npm install` - installs dependencies so you can work
+CPBRA App is a Lit/Web Components single-page app for a pickup basketball park or recreation league. It includes a hero section, sticky navigation, routed pages, court status cards, schedule data, a gallery, signup flow, and reusable CPBRA-branded UI components.
 
-## Commands
-- `npm start` - runs your web component for development, reloading on file changes
-- `npm run build` - builds your web component and outputs it in your `dist` directory for placement on web servers in a compiled form. Vercel automatically does this on commit to github.
-- `npm run release` - this will build your code, update the version, and publish it to npm for others to use
+## Tech Stack
 
-## Working with your web component
-- edit `./cpbra-app.js`
-- edit your 'demo' by modifying `./index.html`
-- add dependencies using `npm install --save @whatever/repo` or editing `./package.json` directly
-- if you must reference additional non-JS files, ensure you use the `new URL('./my-file.jpg', import.meta.url).href` syntax so that it builds correctly
-- if you add additional `.js` files / web components then place them under `/lib/`
-- to improve HAX wiring edit file in `/lib/cpbra-app.haxProperties.json`
-- for i18n / internationalization efforts, see associated language `.json` files in `/locales/` as well as `/lib/` for haxProperties related translation examples.
+- JavaScript
+- Lit
+- HAX / DDD design system utilities
+- Web Components
+- Vercel-compatible static JSON data
+- OpenWC-style build and test tooling
 
-## Recommended setup
-- Load VS code in 1 window to project root
-- Browser open
-- Right click -> Inspect and open the Console to see error output
+## Features
 
-## Recommended Integrated Development Environment (IDE)
-- [VSCode](https://code.visualstudio.com/Download)
+- Client-side route handling for home, schedule, join, and gallery views
+- Reusable custom elements for navigation, courts, schedules, signup, gallery, footer, and scroll controls
+- Local app state for court queue updates after player signup
+- JSON-backed schedule, menu, and media data
+- Responsive layout and dark-mode-aware styling
 
-### Plugins
+## Run Locally
 
-Name: lit-html
-Description: Syntax highlighting and IntelliSense for html inside of JavaScript and TypeScript tagged template strings
-Publisher: Matt Bierner
-VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=bierner.lit-html
+```bash
+npm install
+npm start
+```
 
-Name: lit-plugin
-Description: Syntax highlighting, type checking and code completion for lit-html
-Publisher: Rune Mehlsen
-VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin
+## Build
 
-# Credits
-A brighter future dreamed and developed by the Penn State [HAXTheWeb](https://hax.psu.edu/) initative.
+```bash
+npm run build
+```
 
-Never. Stop. innovating.
+## Project Status
+
+This is the strongest software engineering portfolio project in this account, but it still needs polish before being pinned or listed on a resume.
+
+Recommended next improvements:
+
+- Add screenshots and a live demo link.
+- Add real tests for routing, signup events, and schedule rendering.
+- Replace any external placeholder images with stable local assets.
+- Expand this README with a short architecture section and deployment notes.
